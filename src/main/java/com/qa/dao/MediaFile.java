@@ -1,13 +1,17 @@
 package com.qa.dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.List;
 
 public class MediaFile {
     private FileName fileName;
     private FilePath filePath;
     private MediaFileType mediaFileType;
+    private Image image;
     private String comment;
-    private List<Category> categories;
+    private ObservableList<Category> categories = FXCollections.observableArrayList();
 
     /**
      * Get fileName.
@@ -72,7 +76,7 @@ public class MediaFile {
     /**
      * Get categories.
      **/
-    public List<Category> getCategories() {
+    public ObservableList<Category> getCategories() {
         return categories;
     }
 
@@ -80,7 +84,34 @@ public class MediaFile {
      * Sets the categories and returns a reference to this for chaining.
      **/
     public MediaFile setCategories(final List<Category> categories) {
-        this.categories = categories;
+        this.categories.setAll(categories);
         return this;
+    }
+
+    /**
+     * Get image.
+     **/
+    public Image getImage() {
+        return image;
+    }
+
+    /**
+     * Sets the image and returns a reference to this for chaining.
+     **/
+    public MediaFile setImage(final Image image) {
+        this.image = image;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "MediaFile{" +
+                "fileName=" + fileName +
+                ", filePath=" + filePath +
+                ", mediaFileType=" + mediaFileType +
+                ", image=" + image +
+                ", comment='" + comment + '\'' +
+                ", categories=" + categories +
+                '}';
     }
 }

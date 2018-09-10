@@ -2,13 +2,27 @@ package com.qa.helper;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * FXMLHelper
+ * Utility class for FXML loaders and resource bundle
+ *
+ * @author Juri Duval
+ */
 public enum FXMLHelper {
     ;
-
-    public static final ResourceBundle DEFAULT_RESOURCE_BUNDLE = ResourceBundle.getBundle("resourceBundle_en");
+    private static final Logger LOGGER = LoggerFactory.getLogger(FXMLHelper.class);
+    public static final ResourceBundle DEFAULT_RESOURCE_BUNDLE = ResourceBundle.getBundle("resourceBundle_en", Locale.ENGLISH);
 
     /**
      * This method Loads {@link Parent} node from specified {@param clazz}
@@ -37,6 +51,57 @@ public enum FXMLHelper {
      */
     public static String getTranslatedString(final String resourceBundleKey) {
         return DEFAULT_RESOURCE_BUNDLE.getString(resourceBundleKey);
+    }
+
+    /**
+     * This method loads a new window with specified parameters
+     *
+     * @param fxml      - {@link String} fxml file name
+     * @param width     - int width in pixels
+     * @param height    - int height in pixels
+     * @param modality  - {@link Modality}
+     * @param ownerNode - {@link Window}
+     * @param clazz     - {@link Class} to be used for loadin fxml
+     * @return <T> T representing a controller
+     */
+    public static <T> T loadNewWindow(final String fxml,
+                                      final int width, final int height,
+                                      final Modality modality,
+                                      final Window ownerNode,
+                                      final Class clazz) {
+        T controller = null;
+        try {
+            final FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(clazz.getClassLoader().getResource(fxml));
+            fxmlLoader.setResources(getResourceBundle());
+            Scene scene = new Scene(fxmlLoader.load(), width, height);
+            Stage stage = new Stage();
+            stage.initModality(modality);
+            controller = fxmlLoader.getController();
+            stage.initOwner(ownerNode);
+            stage.setScene(scene);
+            stage.show();
+        } catch (final IOException e) {
+            LOGGER.error("Failed to load new window.", e);
+        }
+
+        return controller;
+    }
+
+    /**
+     * This method load {@param fxml} for specified {@param controller}
+     *
+     * @param fxml       - {@link String} fxml file name
+     * @param controller - {@link Object}
+     */
+    public static void loadFXML(final String fxml, final Object controller) {
+        FXMLLoader fxmlLoader = new FXMLLoader(controller.getClass().getClassLoader().getResource(fxml), getResourceBundle());
+        fxmlLoader.setController(controller);
+        try {
+            fxmlLoader.load();
+        } catch (final IOException e) {
+            LOGGER.error("Failed to load fxml.", e);
+        }
     }
 
 }

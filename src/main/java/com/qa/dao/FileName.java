@@ -1,6 +1,7 @@
 package com.qa.dao;
 
 public class FileName {
+
     private String name;
 
     /**

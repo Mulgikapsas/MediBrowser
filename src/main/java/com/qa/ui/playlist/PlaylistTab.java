@@ -2,27 +2,34 @@ package com.qa.ui.playlist;
 
 import com.qa.dao.MediaFile;
 import com.qa.dao.Playlist;
+import com.qa.ui.editor.MediaFileEditorPane;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.stage.Modality;
+import javafx.stage.Window;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
-import static com.qa.helper.FXMLHelper.getResourceBundle;
+import static com.qa.helper.FXMLHelper.getTranslatedString;
+import static com.qa.helper.FXMLHelper.loadFXML;
+import static com.qa.helper.FXMLHelper.loadNewWindow;
 
 public class PlaylistTab extends Tab {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlaylistTab.class);
 
     private Playlist playlist;
-    private Label playlistName = new Label();
+    private Label playlistName = new Label(); //Tab header value
+    private final ContextMenu playlistItemContextMenu = new ContextMenu(); //Shows options for each table item
 
     @FXML
     private TableView<MediaFile> playlistTableView;
@@ -41,24 +48,41 @@ public class PlaylistTab extends Tab {
             LOGGER.debug("Initializing playlist tab. Name: " + playlist.getName());
         }
         this.playlist = playlist;
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("playlistTab.fxml"), getResourceBundle());
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (final IOException e) {
-            LOGGER.error("Failed to load fxml.", e);
-        }
+        loadFXML("playlistTab.fxml", this);
     }
 
     @FXML
     public void initialize() {
+        //Initialize context menu
+        final MenuItem editMenuItem = new MenuItem(getTranslatedString("playlist.edit.menu.item"));
+        final MenuItem viewCategoriesMenuItem = new MenuItem(getTranslatedString("playlist.view.categories.menu.item"));
+        final MenuItem removeMenuItem = new MenuItem(getTranslatedString("playlist.remove.menu.item"));
+        playlistItemContextMenu.getItems().setAll(editMenuItem, viewCategoriesMenuItem, removeMenuItem);
+
+        editMenuItem.setOnAction(event -> showMediaFileEditorWindow(playlistTableView.getSelectionModel().getSelectedItem()));
+        removeMenuItem.setOnAction(event -> playlist.getMediaFiles().remove(playlistTableView.getSelectionModel().getSelectedItem()));
+        //todo introduce new view for categories non blocking
+        viewCategoriesMenuItem.setOnAction(event -> showMediaFileEditorWindow(playlistTableView.getSelectionModel().getSelectedItem()));
+
         //Initialize table view
         fileNameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFileName().getName()));
         filePathColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFilePath().getPath()));
         mediaFileTypeColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getMediaFileType().toString()));
         mediaTypeColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getMediaFileType().getContentType().toString()));
         playlistTableView.setItems(playlist.getMediaFiles());
+
+        //Show context menu when we right click a row
+        playlistTableView.setRowFactory(param -> {
+            final TableRow<MediaFile> tableRow = new TableRow<>();
+            tableRow.setOnMouseClicked(event -> {
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    final Window owner = getTabPane().getScene().getWindow();
+                    playlistItemContextMenu.show(owner, event.getScreenX(), event.getScreenY());
+                }
+            });
+            return tableRow;
+        });
+
 
         //Set initial values
         playlistName.setText(playlist.getName());
@@ -92,4 +116,19 @@ public class PlaylistTab extends Tab {
             }
         });
     }
+
+    /**
+     * This method shows new media file editor window
+     *
+     * @param selectedMediaFile - last selected {@link MediaFile}
+     */
+    private void showMediaFileEditorWindow(final MediaFile selectedMediaFile) {
+        final MediaFileEditorPane mediaFileEditorPane = loadNewWindow("mediaFileEditorPane.fxml",
+                400, 200,
+                Modality.WINDOW_MODAL,
+                getTabPane().getScene().getWindow(),
+                getClass());
+        mediaFileEditorPane.setMediaFile(selectedMediaFile);
+    }
+
 }
