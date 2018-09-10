@@ -62,13 +62,14 @@ public enum FXMLHelper {
      * @param modality  - {@link Modality}
      * @param ownerNode - {@link Window}
      * @param clazz     - {@link Class} to be used for loadin fxml
+     * @param resizable - specifies if new window should be resizable or not
      * @return <T> T representing a controller
      */
     public static <T> T loadNewWindow(final String fxml,
                                       final int width, final int height,
                                       final Modality modality,
                                       final Window ownerNode,
-                                      final Class clazz) {
+                                      final Class clazz, final boolean resizable) {
         T controller = null;
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader();
@@ -80,6 +81,7 @@ public enum FXMLHelper {
             controller = fxmlLoader.getController();
             stage.initOwner(ownerNode);
             stage.setScene(scene);
+            stage.setResizable(resizable);
             stage.show();
         } catch (final IOException e) {
             LOGGER.error("Failed to load new window.", e);

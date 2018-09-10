@@ -55,14 +55,13 @@ public class PlaylistTab extends Tab {
     public void initialize() {
         //Initialize context menu
         final MenuItem editMenuItem = new MenuItem(getTranslatedString("playlist.edit.menu.item"));
-        final MenuItem viewCategoriesMenuItem = new MenuItem(getTranslatedString("playlist.view.categories.menu.item"));
+        final MenuItem viewMetaDataMenuItem = new MenuItem(getTranslatedString("playlist.view.meta.data.menu.item"));
         final MenuItem removeMenuItem = new MenuItem(getTranslatedString("playlist.remove.menu.item"));
-        playlistItemContextMenu.getItems().setAll(editMenuItem, viewCategoriesMenuItem, removeMenuItem);
+        playlistItemContextMenu.getItems().setAll(editMenuItem, viewMetaDataMenuItem, removeMenuItem);
 
-        editMenuItem.setOnAction(event -> showMediaFileEditorWindow(playlistTableView.getSelectionModel().getSelectedItem()));
+        editMenuItem.setOnAction(event -> showMediaFileEditorWindow(playlistTableView.getSelectionModel().getSelectedItem(), false));
         removeMenuItem.setOnAction(event -> playlist.getMediaFiles().remove(playlistTableView.getSelectionModel().getSelectedItem()));
-        //todo introduce new view for categories non blocking
-        viewCategoriesMenuItem.setOnAction(event -> showMediaFileEditorWindow(playlistTableView.getSelectionModel().getSelectedItem()));
+        viewMetaDataMenuItem.setOnAction(event -> showMediaFileEditorWindow(playlistTableView.getSelectionModel().getSelectedItem(), true));
 
         //Initialize table view
         fileNameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFileName().getName()));
@@ -122,13 +121,14 @@ public class PlaylistTab extends Tab {
      *
      * @param selectedMediaFile - last selected {@link MediaFile}
      */
-    private void showMediaFileEditorWindow(final MediaFile selectedMediaFile) {
+    private void showMediaFileEditorWindow(final MediaFile selectedMediaFile, final boolean readOnly) {
         final MediaFileEditorPane mediaFileEditorPane = loadNewWindow("mediaFileEditorPane.fxml",
-                400, 200,
+                500, 300,
                 Modality.WINDOW_MODAL,
                 getTabPane().getScene().getWindow(),
-                getClass());
+                getClass(), false);
         mediaFileEditorPane.setMediaFile(selectedMediaFile);
+        mediaFileEditorPane.setReadOnly(readOnly);
     }
 
 }

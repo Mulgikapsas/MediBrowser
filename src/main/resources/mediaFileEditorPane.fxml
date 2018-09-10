@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
+<?import org.controlsfx.glyphfont.Glyph?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.qa.ui.editor.MediaFileEditorPane"
@@ -13,15 +14,24 @@
     <padding>
         <Insets top="10" bottom="10"/>
     </padding>
-    <Label text="%media.file.editor.comment.label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-    <TextField fx:id="commentTextField" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-    <Label text="%media.file.editor.image.name.label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-    <TextField fx:id="imageNameTextField" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-    <Label text="%media.file.editor.image.path.label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-    <TextField fx:id="imagePathTextField" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-    <Label text="%media.file.editor.categories.label" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-    <TextField fx:id="categoryTextField" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-    <Button fx:id="addCategoryButton" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-    <Button fx:id="removeCategoryButton" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
-    <ListView fx:id="categoryList" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+    <Label text="%media.file.editor.save.button" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Button fx:id="saveButton" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <graphic>
+            <Glyph fontFamily="FontAwesome" icon="SAVE" fontSize="17"/>
+        </graphic>
+    </Button>
+    <Label text="%media.file.editor.comment.label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <TextField fx:id="commentTextField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <Label text="%media.file.editor.image.file.name.label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextField fx:id="imageFileNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <Label text="%media.file.editor.image.path.label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id="imagePathTextField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    <Label text="%media.file.editor.categories.label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <TextField fx:id="categoryTextField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <Button fx:id="addCategoryButton" text="%media.file.editor.add.category.button" GridPane.columnIndex="2"
+            GridPane.rowIndex="4"/>
+    <ListView fx:id="categoryList" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    <Button fx:id="removeCategoryButton"
+            text="%media.file.editor.remove.category.button"
+            GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.valignment="TOP"/>
 </GridPane>

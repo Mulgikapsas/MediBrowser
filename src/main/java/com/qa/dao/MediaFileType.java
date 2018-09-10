@@ -18,9 +18,9 @@ public enum MediaFileType {
         VIDEO, AUDIO
     }
 
-    private String extension;
-    private Pattern extensionPattern;
-    private ContentType contentType;
+    private final String extension;
+    private final Pattern extensionPattern;
+    private final ContentType contentType;
 
     MediaFileType(final String extension, final ContentType contentType) {
         this.extension = extension;
