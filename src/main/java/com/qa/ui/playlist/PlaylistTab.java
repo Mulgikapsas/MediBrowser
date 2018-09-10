@@ -27,8 +27,8 @@ import static com.qa.helper.FXMLHelper.loadNewWindow;
 public class PlaylistTab extends Tab {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlaylistTab.class);
 
-    private Playlist playlist;
-    private Label playlistName = new Label(); //Tab header value
+    private final Playlist playlist;
+    private final Label playlistName = new Label(); //Tab header value
     private final ContextMenu playlistItemContextMenu = new ContextMenu(); //Shows options for each table item
 
     @FXML
@@ -53,7 +53,7 @@ public class PlaylistTab extends Tab {
 
     @FXML
     public void initialize() {
-        //Initialize context menu
+        //Initialize context menus
         final MenuItem editMenuItem = new MenuItem(getTranslatedString("playlist.edit.menu.item"));
         final MenuItem viewMetaDataMenuItem = new MenuItem(getTranslatedString("playlist.view.meta.data.menu.item"));
         final MenuItem removeMenuItem = new MenuItem(getTranslatedString("playlist.remove.menu.item"));
@@ -62,6 +62,7 @@ public class PlaylistTab extends Tab {
         editMenuItem.setOnAction(event -> showMediaFileEditorWindow(playlistTableView.getSelectionModel().getSelectedItem(), false));
         removeMenuItem.setOnAction(event -> playlist.getMediaFiles().remove(playlistTableView.getSelectionModel().getSelectedItem()));
         viewMetaDataMenuItem.setOnAction(event -> showMediaFileEditorWindow(playlistTableView.getSelectionModel().getSelectedItem(), true));
+
 
         //Initialize table view
         fileNameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFileName().getName()));
@@ -131,4 +132,10 @@ public class PlaylistTab extends Tab {
         mediaFileEditorPane.setReadOnly(readOnly);
     }
 
+    /**
+     * This method adds new {@param mediaFile} to {@code playlist}
+     **/
+    public void addMediaFile(final MediaFile mediaFile) {
+        playlist.getMediaFiles().add(mediaFile);
+    }
 }

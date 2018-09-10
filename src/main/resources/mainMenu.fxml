@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
+<?import org.controlsfx.glyphfont.Glyph?>
 <VBox fx:controller="com.qa.ui.MainMenu"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -14,7 +15,18 @@
             <Insets left="5"/>
         </padding>
         <PlaylistTabPane fx:id="playlistTabPane" HBox.hgrow="ALWAYS"/>
-        <Button text="+" onAction="#addNewTab"/>
+        <VBox>
+            <Button prefHeight="35" prefWidth="35" onAction="#addNewTab">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="PLUS" fontSize="20"/>
+                </graphic>
+            </Button>
+            <Button prefHeight="35" prefWidth="35" onAction="#showFileImportScreen">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="FOLDER" fontSize="20"/>
+                </graphic>
+            </Button>
+        </VBox>
     </HBox>
     <MediaView preserveRatio="true" fx:id="mediaView"/>
 </VBox>
