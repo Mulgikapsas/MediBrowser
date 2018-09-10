@@ -1,0 +1,20 @@
+<?import com.qa.ui.playlist.PlaylistTabPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<VBox fx:controller="com.qa.ui.MainMenu"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      HBox.hgrow="ALWAYS"
+      VBox.vgrow="ALWAYS">
+    <HBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+        <padding>
+            <Insets left="5"/>
+        </padding>
+        <PlaylistTabPane fx:id="playlistTabPane" HBox.hgrow="ALWAYS"/>
+        <Button text="+" onAction="#addNewTab"/>
+    </HBox>
+    <MediaView preserveRatio="true" fx:id="mediaView"/>
+</VBox>

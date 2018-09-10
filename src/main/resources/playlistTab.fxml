@@ -1,0 +1,30 @@
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<Tab xmlns="http://javafx.com/javafx"
+     xmlns:fx="http://javafx.com/fxml">
+    <TableView fx:id="playlistTableView">
+        <columns>
+            <TableColumn fx:id="fileNameColumn"
+                         text="%playlist.file.name.column.text"
+                         prefWidth="100"/>
+            <TableColumn fx:id="filePathColumn"
+                         text="%playlist.file.path.column.text"
+                         prefWidth="100"/>
+            <TableColumn fx:id="mediaFileTypeColumn"
+                         text="%playlist.media.file.type.column.text"
+                         prefWidth="120"/>
+            <TableColumn fx:id="mediaTypeColumn"
+                         text="%playlist.media.type.column.text"
+                         prefWidth="100"/>
+            <TableColumn fx:id="commentColumn"
+                         text="%playlist.comment.column.text"
+                         prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="comment"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+</Tab>
