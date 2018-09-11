@@ -30,6 +30,11 @@
                     <Glyph fontFamily="FontAwesome" icon="SAVE" fontSize="20"/>
                 </graphic>
             </Button>
+            <Button prefHeight="35" prefWidth="35" onAction="#showCategoryEditWindow">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="GEAR" fontSize="20"/>
+                </graphic>
+            </Button>
         </VBox>
     </HBox>
 </VBox>

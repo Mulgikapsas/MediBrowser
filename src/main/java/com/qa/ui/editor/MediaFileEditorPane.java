@@ -5,10 +5,12 @@ import com.qa.dao.FileName;
 import com.qa.dao.FilePath;
 import com.qa.dao.Image;
 import com.qa.dao.MediaFile;
+import com.qa.holder.CategoryHolder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -24,7 +26,7 @@ public class MediaFileEditorPane extends GridPane {
     @FXML
     private TextField imagePathTextField;
     @FXML
-    private TextField categoryTextField;
+    private ComboBox<Category> categoryComboBox;
     @FXML
     private Button addCategoryButton;
     @FXML
@@ -38,6 +40,9 @@ public class MediaFileEditorPane extends GridPane {
 
     @FXML
     public void initialize() {
+        //Populate category data
+        categoryComboBox.setItems(CategoryHolder.getCategoryList());
+
         //Add listeners
         saveButton.setOnAction(event -> {
             final Image image = new Image()
@@ -50,17 +55,21 @@ public class MediaFileEditorPane extends GridPane {
                     .setCategories(categoryObservableList);
 
         });
-        addCategoryButton.setOnAction(event -> {
-            final String textFieldText = categoryTextField.getText();
-            final Category newCategory = new Category().setName(textFieldText);
 
-            if (StringUtils.isBlank(textFieldText) || categoryObservableList.contains(newCategory)) {
+        addCategoryButton.setOnAction(event -> {
+            final int selectedIndex = categoryComboBox.getSelectionModel().getSelectedIndex();
+            final Category selectedCategory = categoryComboBox.getItems().get(selectedIndex);
+
+            if (selectedCategory == null
+                    || StringUtils.isBlank(selectedCategory.getName())
+                    || categoryObservableList.contains(selectedCategory)) {
                 return;
             }
-            //Empty text field on add
-            categoryTextField.setText(null);
-            categoryList.getItems().add(newCategory);
+            //Empty combo box on add
+            categoryComboBox.getSelectionModel().clearSelection();
+            categoryList.getItems().add(selectedCategory);
         });
+
         removeCategoryButton.setOnAction(event ->
                 mediaFile.getCategories().removeAll(categoryList.getSelectionModel().getSelectedItems())
         );
@@ -102,7 +111,6 @@ public class MediaFileEditorPane extends GridPane {
         commentTextField.setEditable(!readOnly);
         imageFileNameTextField.setEditable(!readOnly);
         imagePathTextField.setEditable(!readOnly);
-        categoryTextField.setEditable(!readOnly);
-
+        categoryComboBox.setEditable(!readOnly);
     }
 }

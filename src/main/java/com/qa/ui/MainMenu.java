@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.qa.dao.Category;
 import com.qa.dao.Playlist;
+import com.qa.holder.CategoryHolder;
 import com.qa.ui.file.FileImportPane;
 import com.qa.ui.playlist.PlaylistTab;
 import com.qa.ui.playlist.PlaylistTabPane;
@@ -31,7 +33,9 @@ import static com.qa.helper.FXMLHelper.loadNewWindow;
 
 public class MainMenu extends VBox {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainMenu.class);
-    public static final String PLAYLIST_SAVE_FILE_PATH = "C:/MediaBrowser.json";
+    //TODO system property??
+    public static final String PLAYLIST_SAVE_FILE_PATH = "C:/MediaBrowserPlaylist.json";
+    public static final String CATEGORY_SAVE_FILE_PATH = "C:/MediaBrowserCategory.json";
 
     @FXML
     private MediaView mediaView;
@@ -44,6 +48,7 @@ public class MainMenu extends VBox {
 
     @FXML
     public void initialize() {
+        restoreCategories();
         restorePlaylists();
     }
 
@@ -81,6 +86,36 @@ public class MainMenu extends VBox {
         }
     }
 
+    /**
+     * This method restores categories from {@code CATEGORY_SAVE_FILE_PATH} file.
+     */
+    private void restoreCategories() {
+        final File file = new File(CATEGORY_SAVE_FILE_PATH);
+        if (file.exists()) {
+            try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                final StringBuilder stringBuilder = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+
+                final List<Category> loadedCategories = new ObjectMapper().readValue(stringBuilder.toString(), new TypeReference<List<Category>>() {
+                });
+                CategoryHolder.setCategories(loadedCategories);
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Loaded " + loadedCategories.size() + " category/categories.");
+                }
+
+            } catch (final IOException e) {
+                LOGGER.error("Failed to load playlist(s) from file.", e);
+                Notifications.create()
+                        .title(getTranslatedString("notification.warning"))
+                        .text(getTranslatedString("notification.playlist.load.fail.warning"))
+                        .showWarning();
+            }
+        }
+    }
+
     @FXML
     private void addNewTab(final ActionEvent actionEvent) {
         playlistTabPane.getTabs().add(new PlaylistTab(new Playlist()));
@@ -103,12 +138,14 @@ public class MainMenu extends VBox {
         }
         final ObjectMapper mapper = new ObjectMapper();
         final ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        //Extract playlists from our tabs
         final List<Playlist> playlists = playlistTabPane.getTabs().stream()
                 .map(tab -> ((PlaylistTab) tab).getPlaylist())
                 .collect(Collectors.toList());
         boolean hadException = false;
         try {
             writer.writeValue(new File(PLAYLIST_SAVE_FILE_PATH), playlists);
+            writer.writeValue(new File(CATEGORY_SAVE_FILE_PATH), CategoryHolder.getCategoryList());
         } catch (final IOException e) {
             hadException = true;
             LOGGER.error("Failed to save playlists.", e);
@@ -124,5 +161,14 @@ public class MainMenu extends VBox {
                         .showConfirm();
             }
         }
+    }
+
+    @FXML
+    private void showCategoryEditWindow(final ActionEvent actionEvent) {
+        loadNewWindow("categoryEditorPane.fxml",
+                550, 550,
+                Modality.WINDOW_MODAL,
+                playlistTabPane.getScene().getWindow(),
+                getClass(), false);
     }
 }
