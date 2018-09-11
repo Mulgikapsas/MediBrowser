@@ -127,7 +127,7 @@ public class PlaylistTab extends Tab {
                 500, 300,
                 Modality.WINDOW_MODAL,
                 getTabPane().getScene().getWindow(),
-                getClass(), false);
+                getClass(), false, getTranslatedString("media.file.editor.window.title"));
         mediaFileEditorPane.setMediaFile(selectedMediaFile);
         mediaFileEditorPane.setReadOnly(readOnly);
     }

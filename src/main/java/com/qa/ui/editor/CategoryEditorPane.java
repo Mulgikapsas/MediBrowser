@@ -41,10 +41,11 @@ public class CategoryEditorPane extends GridPane {
                 CategoryHolder.getCategoryList().remove(categoryList.getSelectionModel().getSelectedItem())
         );
 
+        //Update selected categoryF
         updateCategoryButton.setOnAction(event -> {
             final Category newCategory = new Category().setName(categoryTextField.getText());
             final Category selectedCategory = categoryList.getSelectionModel().getSelectedItem();
-            if (selectedCategory != null && !CategoryHolder.getCategoryList().contains(newCategory)) {
+            if (selectedCategory != null && !StringUtils.isBlank(newCategory.getName()) && !CategoryHolder.getCategoryList().contains(newCategory)) {
                 final int selectedCategoryIndex = CategoryHolder.getCategoryList().indexOf(selectedCategory);
                 CategoryHolder.getCategoryList().set(selectedCategoryIndex, newCategory);
             }

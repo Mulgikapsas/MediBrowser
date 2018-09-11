@@ -3,6 +3,7 @@ package com.qa.helper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -12,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import static com.qa.MediaBrowser.APP_ICON;
 
 /**
  * FXMLHelper
@@ -63,13 +66,14 @@ public enum FXMLHelper {
      * @param ownerNode - {@link Window}
      * @param clazz     - {@link Class} to be used for loadin fxml
      * @param resizable - specifies if new window should be resizable or not
+     * @param title     - {@link Stage title}
      * @return <T> T representing a controller
      */
     public static <T> T loadNewWindow(final String fxml,
                                       final int width, final int height,
                                       final Modality modality,
                                       final Window ownerNode,
-                                      final Class clazz, final boolean resizable) {
+                                      final Class clazz, final boolean resizable, final String title) {
         T controller = null;
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader();
@@ -82,6 +86,8 @@ public enum FXMLHelper {
             stage.initOwner(ownerNode);
             stage.setScene(scene);
             stage.setResizable(resizable);
+            stage.setTitle(title);
+            stage.getIcons().add(new Image(APP_ICON));
             stage.show();
         } catch (final IOException e) {
             LOGGER.error("Failed to load new window.", e);

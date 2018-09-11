@@ -124,10 +124,10 @@ public class MainMenu extends VBox {
     @FXML
     private void showFileImportScreen(final ActionEvent actionEvent) {
         final FileImportPane fileImportPane = loadNewWindow("fileImportPane.fxml",
-                250, 300,
+                250, 250,
                 Modality.WINDOW_MODAL,
                 playlistTabPane.getScene().getWindow(),
-                getClass(), false);
+                getClass(), false, getTranslatedString("import.screen.title"));
         fileImportPane.setSelectedTab((PlaylistTab) playlistTabPane.getSelectionModel().getSelectedItem());
     }
 
@@ -169,6 +169,6 @@ public class MainMenu extends VBox {
                 550, 550,
                 Modality.WINDOW_MODAL,
                 playlistTabPane.getScene().getWindow(),
-                getClass(), false);
+                getClass(), false, getTranslatedString("category.editor.screen.title"));
     }
 }

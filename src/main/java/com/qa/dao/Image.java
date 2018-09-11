@@ -1,5 +1,7 @@
 package com.qa.dao;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class Image {
 
     private FileName fileName;
@@ -41,5 +43,15 @@ public class Image {
                 "fileName=" + fileName +
                 ", filePath=" + filePath +
                 '}';
+    }
+
+    /**
+     * This method checks whether this object is valid
+     *
+     * @return true if fields are not empty
+     */
+    public boolean isValid() {
+        return fileName != null && !StringUtils.isBlank(fileName.getName())
+                && filePath != null && !StringUtils.isBlank(filePath.getPath());
     }
 }

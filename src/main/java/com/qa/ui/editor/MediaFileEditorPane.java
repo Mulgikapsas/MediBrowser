@@ -15,6 +15,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import org.apache.commons.lang3.StringUtils;
+import org.controlsfx.control.Notifications;
+
+import static com.qa.helper.FXMLHelper.getTranslatedString;
 
 public class MediaFileEditorPane extends GridPane {
     private MediaFile mediaFile;
@@ -49,8 +52,14 @@ public class MediaFileEditorPane extends GridPane {
                     .setFileName(new FileName().setName(imageFileNameTextField.getText()))
                     .setFilePath(new FilePath().setPath(imagePathTextField.getText()));
 
-            //TODO Add image validation
-            mediaFile.setImage(image);
+            if (image.isValid()) {
+                mediaFile.setImage(image);
+            } else {
+                Notifications.create()
+                        .title(getTranslatedString("notification.warning"))
+                        .text(getTranslatedString("notification.image.fields.invalid.warning"))
+                        .showWarning();
+            }
             mediaFile.setComment(commentTextField.getText())
                     .setCategories(categoryObservableList);
 
@@ -111,6 +120,6 @@ public class MediaFileEditorPane extends GridPane {
         commentTextField.setEditable(!readOnly);
         imageFileNameTextField.setEditable(!readOnly);
         imagePathTextField.setEditable(!readOnly);
-        categoryComboBox.setEditable(!readOnly);
+        categoryComboBox.setDisable(readOnly);
     }
 }
