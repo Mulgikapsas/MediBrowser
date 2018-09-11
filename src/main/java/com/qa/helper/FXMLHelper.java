@@ -14,7 +14,8 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static com.qa.MediaBrowser.APP_ICON;
+import static com.qa.MediaBrowser.PROPERTIES;
+
 
 /**
  * FXMLHelper
@@ -67,7 +68,7 @@ public enum FXMLHelper {
      * @param clazz     - {@link Class} to be used for loadin fxml
      * @param resizable - specifies if new window should be resizable or not
      * @param title     - {@link Stage title}
-     * @return <T> T representing a controller
+     * @return T representing a controller
      */
     public static <T> T loadNewWindow(final String fxml,
                                       final int width, final int height,
@@ -78,16 +79,16 @@ public enum FXMLHelper {
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(clazz.getClassLoader().getResource(fxml));
-            fxmlLoader.setResources(getResourceBundle());
-            Scene scene = new Scene(fxmlLoader.load(), width, height);
-            Stage stage = new Stage();
+            fxmlLoader.setResources(DEFAULT_RESOURCE_BUNDLE);
+            final Scene scene = new Scene(fxmlLoader.load(), width, height);
+            final Stage stage = new Stage();
             stage.initModality(modality);
             controller = fxmlLoader.getController();
             stage.initOwner(ownerNode);
             stage.setScene(scene);
             stage.setResizable(resizable);
             stage.setTitle(title);
-            stage.getIcons().add(new Image(APP_ICON));
+            stage.getIcons().add(new Image(PROPERTIES.getProperty("APP_ICON")));
             stage.show();
         } catch (final IOException e) {
             LOGGER.error("Failed to load new window.", e);
@@ -103,7 +104,7 @@ public enum FXMLHelper {
      * @param controller - {@link Object}
      */
     public static void loadFXML(final String fxml, final Object controller) {
-        FXMLLoader fxmlLoader = new FXMLLoader(controller.getClass().getClassLoader().getResource(fxml), getResourceBundle());
+        final FXMLLoader fxmlLoader = new FXMLLoader(controller.getClass().getClassLoader().getResource(fxml), DEFAULT_RESOURCE_BUNDLE);
         fxmlLoader.setController(controller);
         try {
             fxmlLoader.load();

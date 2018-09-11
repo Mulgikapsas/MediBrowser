@@ -28,23 +28,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.qa.MediaBrowser.PROPERTIES;
 import static com.qa.helper.FXMLHelper.getTranslatedString;
 import static com.qa.helper.FXMLHelper.loadNewWindow;
 
 public class MainMenu extends VBox {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainMenu.class);
-    //TODO system property??
-    public static final String PLAYLIST_SAVE_FILE_PATH = "C:/MediaBrowserPlaylist.json";
-    public static final String CATEGORY_SAVE_FILE_PATH = "C:/MediaBrowserCategory.json";
+    private static final String PLAYLIST_SAVE_FILE_PATH = PROPERTIES.getProperty("PLAYLIST_SAVE_FILE_PATH");
+    private static final String CATEGORY_SAVE_FILE_PATH = PROPERTIES.getProperty("CATEGORY_SAVE_FILE_PATH");
 
     @FXML
     private MediaView mediaView;
     @FXML
     private PlaylistTabPane playlistTabPane;
-
-    public MainMenu() {
-        super();
-    }
 
     @FXML
     public void initialize() {
