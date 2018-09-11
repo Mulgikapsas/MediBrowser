@@ -4,6 +4,7 @@ import com.qa.dao.FileName;
 import com.qa.dao.FilePath;
 import com.qa.dao.MediaFile;
 import com.qa.dao.MediaFileType;
+import com.qa.dao.wrapper.FileValidationParameters;
 import com.qa.ui.playlist.PlaylistTab;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.text.MessageFormat;
 
 import static com.qa.helper.FXMLHelper.getTranslatedString;
+import static com.qa.helper.FileHelper.isValidFilePath;
 
 public class FileImportPane extends GridPane {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileImportPane.class);
@@ -52,57 +54,48 @@ public class FileImportPane extends GridPane {
     @FXML
     private void importFiles(final ActionEvent actionEvent) {
         final File file = new File(pathField.getText());
-        final boolean mp3CheckBoxSelected = filterMP3CheckBox.isSelected();
-        final boolean aacCheckBoxSelected = filterAACCheckBox.isSelected();
-        final boolean wavCheckBoxSelected = filterWAVCheckBox.isSelected();
-        final boolean mp4CheckBoxSelected = filterMP4CheckBox.isSelected();
-        final boolean aviCheckBoxSelected = filterAVICheckBox.isSelected();
+        final FileValidationParameters fileValidationParameters = FileValidationParameters.newInstance()
+                .setAllowMP3(filterMP3CheckBox.isSelected())
+                .setAllowAAC(filterAACCheckBox.isSelected())
+                .setAllowWAV(filterWAVCheckBox.isSelected())
+                .setAllowMP4(filterMP4CheckBox.isSelected())
+                .setAllowAVI(filterAVICheckBox.isSelected());
 
         if (file.isDirectory()) {
             //Multiple file import
             final File[] files = file.listFiles(pathname -> {
                 final String path = pathname.getPath();
-                return isValidFilePath(mp3CheckBoxSelected, aacCheckBoxSelected,
-                        wavCheckBoxSelected, mp4CheckBoxSelected,
-                        aviCheckBoxSelected, path);
-
+                return isValidFilePath(fileValidationParameters, path);
             });
             if (files != null) {
                 importFiles(files);
             } else {
-                Notifications.create()
-                        .title("Warning")
-                        .text("Could not find any relevant files in specified path.")
-                        .showWarning();
+                showWarning("notification.relevant.file.import.warning");
             }
         } else if (file.exists()) {
             //Single file import
-            final boolean validFilePath = isValidFilePath(mp3CheckBoxSelected, aacCheckBoxSelected,
-                    wavCheckBoxSelected, mp4CheckBoxSelected,
-                    aviCheckBoxSelected, file.getPath());
+            final boolean validFilePath = isValidFilePath(fileValidationParameters, file.getPath());
             if (validFilePath) {
                 importFiles(new File[]{file});
             } else {
-                Notifications.create()
-                        .title(getTranslatedString("notification.warning"))
-                        .text(getTranslatedString("notification.file.import.warning"))
-                        .showWarning();
+                showWarning("notification.file.import.warning");
             }
         } else {
             //Import error
-            Notifications.create()
-                    .title(getTranslatedString("notification.warning"))
-                    .text(getTranslatedString("notification.wrong.file.path.warning"))
-                    .showWarning();
+            showWarning("notification.wrong.file.path.warning");
         }
     }
 
-    private static boolean isValidFilePath(final boolean mp3CheckBoxSelected, final boolean aacCheckBoxSelected, final boolean wavCheckBoxSelected, final boolean mp4CheckBoxSelected, final boolean aviCheckBoxSelected, final String path) {
-        return mp3CheckBoxSelected && MediaFileType.MP3.matches(path)
-                || aacCheckBoxSelected && MediaFileType.AAC.matches(path)
-                || wavCheckBoxSelected && MediaFileType.WAV.matches(path)
-                || mp4CheckBoxSelected && MediaFileType.MP4.matches(path)
-                || aviCheckBoxSelected && MediaFileType.AVI.matches(path);
+    /**
+     * Show warning notification
+     *
+     * @param body - {@link String}
+     */
+    private void showWarning(final String body) {
+        Notifications.create()
+                .title(getTranslatedString("notification.warning"))
+                .text(getTranslatedString(body))
+                .showWarning();
     }
 
     /**
