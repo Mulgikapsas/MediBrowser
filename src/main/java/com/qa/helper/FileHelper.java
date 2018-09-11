@@ -12,6 +12,13 @@ import com.qa.dao.wrapper.FileValidationParameters;
 public enum FileHelper {
     ;
 
+    /**
+     * Check if {@param path} is valid to add to our grid
+     *
+     * @param fileValidationParameters - {@link FileValidationParameters}
+     * @param path                     - {@link String}
+     * @return boolean
+     */
     public static boolean isValidFilePath(final FileValidationParameters fileValidationParameters, final String path) {
         return fileValidationParameters.isAllowMP3() && MediaFileType.MP3.matches(path)
                 || fileValidationParameters.isAllowAAC() && MediaFileType.AAC.matches(path)
