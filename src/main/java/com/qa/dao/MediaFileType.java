@@ -14,11 +14,13 @@ public enum MediaFileType {
     MP4(".mp4", VIDEO),
     AVI(".avi", VIDEO);
 
+
     public enum ContentType {
-        VIDEO, AUDIO
+        VIDEO, AUDIO;
     }
 
     private final String extension;
+
     private final Pattern extensionPattern;
     private final ContentType contentType;
 
@@ -53,6 +55,31 @@ public enum MediaFileType {
             return false;
         }
         return extensionPattern.matcher(fileName).matches();
+    }
+
+    /**
+     * This method returns {@link MediaFileType} based on file {@param path}
+     *
+     * @param path - {@link String}
+     * @return {@link MediaFileType}
+     */
+    public static MediaFileType getByPath(final String path) {
+        if (MediaFileType.MP3.matches(path)) {
+            return MP3;
+        }
+        if (MediaFileType.AAC.matches(path)) {
+            return AAC;
+        }
+        if (MediaFileType.WAV.matches(path)) {
+            return WAV;
+        }
+        if (MediaFileType.MP4.matches(path)) {
+            return MP4;
+        }
+        if (MediaFileType.AVI.matches(path)) {
+            return AVI;
+        }
+        return null;
     }
 
 }

@@ -1,9 +1,31 @@
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
+<?import org.controlsfx.glyphfont.Glyph?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.qa.ui.file.FileImportPane"
           alignment="CENTER"
           hgap="5"
           vgap="5">
-
+    <Label text="%file.import.pane.import.button" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Button fx:id="importButton" onAction="#importFiles" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <graphic>
+            <Glyph fontFamily="FontAwesome" icon="ARROW_DOWN" fontSize="15"/>
+        </graphic>
+    </Button>
+    <Label text="%file.import.pane.path.label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <TextField fx:id="pathField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <Label text="%file.import.pane.mp3.label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <CheckBox fx:id="filterMP3CheckBox" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <Label text="%file.import.pane.aac.label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <CheckBox fx:id="filterAACCheckBox" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    <Label text="%file.import.pane.wav.label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <CheckBox fx:id="filterWAVCheckBox" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <Label text="%file.import.pane.mp4.label" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+    <CheckBox fx:id="filterMP4CheckBox" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    <Label text="%file.import.pane.avi.label" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <CheckBox fx:id="filterAVICheckBox" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 </GridPane>
