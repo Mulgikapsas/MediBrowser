@@ -12,10 +12,12 @@ import static com.qa.helper.FXMLHelper.loadParent;
 
 public class MediaBrowser extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(MediaBrowser.class);
+    private static Stage PRIMAY_STAGE;
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
         final Parent root = loadParent(getClass());
+        PRIMAY_STAGE = primaryStage;
         primaryStage.setTitle(getTranslatedString("app.title"));
         primaryStage.setScene(new Scene(root, 600, 475));
         primaryStage.show();
@@ -23,6 +25,13 @@ public class MediaBrowser extends Application {
             LOGGER.debug("Launching primary stage.");
         }
 
+    }
+
+    /**
+     * Get PRIMAY_STAGE.
+     **/
+    public static Stage getPrimayStage() {
+        return PRIMAY_STAGE;
     }
 
     public static void main(String[] args) {

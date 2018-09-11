@@ -138,4 +138,11 @@ public class PlaylistTab extends Tab {
     public void addMediaFile(final MediaFile mediaFile) {
         playlist.getMediaFiles().add(mediaFile);
     }
+
+    /**
+     * Get playlist.
+     **/
+    public Playlist getPlaylist() {
+        return playlist;
+    }
 }

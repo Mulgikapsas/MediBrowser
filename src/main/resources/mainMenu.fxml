@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.media.MediaView?>
 <?import org.controlsfx.glyphfont.Glyph?>
 <VBox fx:controller="com.qa.ui.MainMenu"
       xmlns="http://javafx.com/javafx"
@@ -26,7 +25,11 @@
                     <Glyph fontFamily="FontAwesome" icon="FOLDER" fontSize="20"/>
                 </graphic>
             </Button>
+            <Button prefHeight="35" prefWidth="35" onAction="#saveData">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="SAVE" fontSize="20"/>
+                </graphic>
+            </Button>
         </VBox>
     </HBox>
-    <MediaView preserveRatio="true" fx:id="mediaView"/>
 </VBox>

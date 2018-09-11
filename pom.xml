@@ -10,6 +10,7 @@
 
     <properties>
         <slf4j.version>1.7.25</slf4j.version>
+        <jackson.version>2.9.6</jackson.version>
     </properties>
 
     <build>
@@ -47,6 +48,22 @@
             <artifactId>controlsfx</artifactId>
             <version>8.40.14</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
 
         <!-- Logging  -->
         <dependency>
