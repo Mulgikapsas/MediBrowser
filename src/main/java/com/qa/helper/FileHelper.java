@@ -13,10 +13,11 @@ public enum FileHelper {
     ;
 
     /**
-     * Check if {@param path} is valid to add to our grid
+     * This method checks if {@param path} is valid.
      *
-     * @param fileValidationParameters - {@link FileValidationParameters}
-     * @param path                     - {@link String}
+     *
+     * @param fileValidationParameters - {@link FileValidationParameters} as filter
+     * @param path                     - {@link String} as file path
      * @return boolean
      */
     public static boolean isValidFilePath(final FileValidationParameters fileValidationParameters, final String path) {

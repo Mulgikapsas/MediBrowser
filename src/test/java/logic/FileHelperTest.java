@@ -5,7 +5,9 @@ import com.qa.helper.FileHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection"})
 class FileHelperTest {
+
     @Test
     void isValidFilePath() {
         final FileValidationParameters fileValidationParameters = FileValidationParameters.newInstance()

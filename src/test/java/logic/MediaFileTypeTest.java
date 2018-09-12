@@ -10,6 +10,7 @@ import static com.qa.dao.MediaFileType.MP3;
 import static com.qa.dao.MediaFileType.MP4;
 import static com.qa.dao.MediaFileType.WAV;
 
+@SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection"})
 class MediaFileTypeTest {
 
     @Test
