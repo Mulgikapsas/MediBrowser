@@ -28,5 +28,6 @@ class FileHelperTest {
         //Test filtering
         fileValidationParameters.setAllowMP4(false);
         Assertions.assertFalse(FileHelper.isValidFilePath(fileValidationParameters, "C:/file/storage.mp4"));
+        Assertions.assertFalse(FileHelper.isValidFilePath(fileValidationParameters, null));
     }
 }
