@@ -25,7 +25,7 @@ class FileHelperTest {
         Assertions.assertTrue(FileHelper.isValidFilePath(fileValidationParameters, "C:/file/storage.avi"));
         Assertions.assertFalse(FileHelper.isValidFilePath(fileValidationParameters, "C:/file/storage.invalid"));
 
-        //Test filtering
+        //Test path validator with filters
         fileValidationParameters.setAllowMP3(false)
                 .setAllowAAC(false)
                 .setAllowWAV(false)
