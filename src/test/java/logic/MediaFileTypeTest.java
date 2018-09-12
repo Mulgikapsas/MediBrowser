@@ -20,5 +20,6 @@ class MediaFileTypeTest {
         Assertions.assertEquals(WAV, MediaFileType.getByPath("C:/file/storage.wav"));
         Assertions.assertEquals(MP4, MediaFileType.getByPath("C:/file/storage.mp4"));
         Assertions.assertEquals(AVI, MediaFileType.getByPath("C:/file/storage.avi"));
+        Assertions.assertNull(MediaFileType.getByPath("C:/file/storage.invalid"));
     }
 }
