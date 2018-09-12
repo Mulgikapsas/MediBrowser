@@ -10,7 +10,7 @@ import java.util.List;
  * CategoryHolder
  * This class is for storing all category information
  *
- * @author JP69745
+ * @author Juri Duval
  */
 public enum CategoryHolder {
     ;
