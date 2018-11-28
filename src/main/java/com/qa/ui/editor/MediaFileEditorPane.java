@@ -79,8 +79,9 @@ public class MediaFileEditorPane extends GridPane {
             categoryList.getItems().add(selectedCategory);
         });
 
-        removeCategoryButton.setOnAction(event ->
-                mediaFile.getCategories().removeAll(categoryList.getSelectionModel().getSelectedItems())
+        removeCategoryButton.setOnAction(event -> {
+                    categoryObservableList.remove(categoryList.getSelectionModel().getSelectedItem());
+                }
         );
     }
 

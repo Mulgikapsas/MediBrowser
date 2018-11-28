@@ -10,6 +10,7 @@ import static com.qa.dao.MediaFileType.MP3;
 import static com.qa.dao.MediaFileType.MP4;
 import static com.qa.dao.MediaFileType.WAV;
 
+@SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection"})
 class MediaFileTypeTest {
 
     @Test
@@ -19,5 +20,6 @@ class MediaFileTypeTest {
         Assertions.assertEquals(WAV, MediaFileType.getByPath("C:/file/storage.wav"));
         Assertions.assertEquals(MP4, MediaFileType.getByPath("C:/file/storage.mp4"));
         Assertions.assertEquals(AVI, MediaFileType.getByPath("C:/file/storage.avi"));
+        Assertions.assertNull(MediaFileType.getByPath("C:/file/storage.invalid"));
     }
 }

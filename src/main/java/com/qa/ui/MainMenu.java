@@ -10,6 +10,7 @@ import com.qa.holder.CategoryHolder;
 import com.qa.ui.file.FileImportPane;
 import com.qa.ui.playlist.PlaylistTab;
 import com.qa.ui.playlist.PlaylistTabPane;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -74,10 +75,12 @@ public class MainMenu extends VBox {
 
             } catch (final IOException e) {
                 LOGGER.error("Failed to load playlist(s) from file.", e);
-                Notifications.create()
-                        .title(getTranslatedString("notification.warning"))
-                        .text(getTranslatedString("notification.playlist.load.fail.warning"))
-                        .showWarning();
+                Platform.runLater(() -> {
+                    Notifications.create()
+                            .title(getTranslatedString("notification.warning"))
+                            .text(getTranslatedString("notification.playlist.load.fail.warning"))
+                            .showWarning();
+                });
             }
         }
     }
@@ -104,10 +107,12 @@ public class MainMenu extends VBox {
 
             } catch (final IOException e) {
                 LOGGER.error("Failed to load playlist(s) from file.", e);
-                Notifications.create()
-                        .title(getTranslatedString("notification.warning"))
-                        .text(getTranslatedString("notification.playlist.load.fail.warning"))
-                        .showWarning();
+                Platform.runLater(() -> {
+                    Notifications.create()
+                            .title(getTranslatedString("notification.warning"))
+                            .text(getTranslatedString("notification.playlist.load.fail.warning"))
+                            .showWarning();
+                });
             }
         }
     }
