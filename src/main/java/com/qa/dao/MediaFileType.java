@@ -27,7 +27,7 @@ public enum MediaFileType {
     MediaFileType(final String extension, final ContentType contentType) {
         this.extension = extension;
         this.contentType = contentType;
-        extensionPattern = Pattern.compile(".*" + extension);
+        extensionPattern = Pattern.compile(".*" + extension, Pattern.CASE_INSENSITIVE);
     }
 
     /**

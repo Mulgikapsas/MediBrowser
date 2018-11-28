@@ -1,0 +1,19 @@
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.qa.ui.player.MediaPlayerPane"
+          alignment="center" hgap="10" vgap="10">
+    <VBox>
+        <VBox minWidth="800" minHeight="500" maxWidth="800" maxHeight="500">
+            <MediaView fx:id="mediaView"/>
+        </VBox>
+        <HBox>
+            <Button fx:id="playButton" text="%play.button"/>
+            <Button fx:id="pauseButton" text="%pause.button"/>
+        </HBox>
+    </VBox>
+</GridPane>

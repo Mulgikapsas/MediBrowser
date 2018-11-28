@@ -3,6 +3,7 @@ package com.qa.ui.playlist;
 import com.qa.dao.MediaFile;
 import com.qa.dao.Playlist;
 import com.qa.ui.editor.MediaFileEditorPane;
+import com.qa.ui.player.MediaPlayerPane;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
@@ -75,7 +76,9 @@ public class PlaylistTab extends Tab {
         playlistTableView.setRowFactory(param -> {
             final TableRow<MediaFile> tableRow = new TableRow<>();
             tableRow.setOnMouseClicked(event -> {
-                if (event.getButton() == MouseButton.SECONDARY) {
+                if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
+                    showMediaPlayerWindow(tableRow.getItem());
+                } else if (event.getButton() == MouseButton.SECONDARY) {
                     final Window owner = getTabPane().getScene().getWindow();
                     playlistItemContextMenu.show(owner, event.getScreenX(), event.getScreenY());
                 }
@@ -130,6 +133,20 @@ public class PlaylistTab extends Tab {
                 getClass(), false, getTranslatedString("media.file.editor.window.title"));
         mediaFileEditorPane.setMediaFile(selectedMediaFile);
         mediaFileEditorPane.setReadOnly(readOnly);
+    }
+
+    /**
+     * This method shows media player
+     *
+     * @param selectedMediaFile - last selected {@link MediaFile}
+     */
+    private void showMediaPlayerWindow(final MediaFile selectedMediaFile) {
+        final MediaPlayerPane mediaPlayerPane = loadNewWindow("mediaPlayerPane.fxml",
+                800, 600,
+                Modality.WINDOW_MODAL,
+                getTabPane().getScene().getWindow(),
+                getClass(), true, getTranslatedString("media.player.window.title"));
+        mediaPlayerPane.setMediaFile(selectedMediaFile);
     }
 
     /**
